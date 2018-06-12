@@ -1,0 +1,111 @@
+---
+title: "Distribuições de Probabilidade e Hidrologia"
+output: html_document
+---
+
+## Um pouco sobre distribuições de probabilidade 
+
+A distribuição de probabilidade de uma dada variável aleátoria descreve como estas probabilidades são distribruidas ao longo dos valores desta variável. Neste caso, é preciso primariamente,  definir se tratamos de uma variável aleatória discreta ou contínua.
+
+Ao se tratar de uma variável aleatória discreta, a distribuição de probabilidade é definida por uma função de probabilidade denominada de f(x). Esta função provém um valor de probabilidade para cada um dos valores da variável discreta.
+
+Por outro lado, ao se falar de uma variável aleatória contínua faz mais sentido encontrar a probabilidade de que uma dada observação esteja contida em um intervalo de valores. 
+
+Para se aprofundar neste tema é indicado que se leia: "Applied Statistics
+and Probability for Engineers": Montgomery e Runger.
+
+## Distribuições de probabilidade na Hidrologia
+
+Na hidrologia, os possiveis usos das distribuições de probabilidade são extensos. Alguns usos comuns são: estimar médias anuais de chuvas para determinados locais; estimar recorrências de grandes valores de chuvas e estimar vazões de referências.
+
+Nesta primeira postagem serão apresentadas algumas aplicações de distribuições de probabilidade para caracterizar valores esperados de chuva, a exemplo de valores médios e recorrências de grandes volumes precipitados.
+
+Nesta aventura teremos nosso grande amigo R!
+
+## Obtenção dos dados
+
+Para obter os dados usaremos o pacote inmetr (https://github.com/lhmet/inmetr) que funciona como um API para busca e download dos dados provenientes do Instituto Nacional de Metereologia. Também, incluiremos nosso fiel companheiro "Tidyverse".
+
+```{r echo = TRUE, message=FALSE, warning=FALSE}
+
+library(devtools)
+install_github('lhmet/inmetr')
+library(inmetr)
+library(tidyverse)
+library(lubridate)
+```
+
+Para obter os dados devemos escolher uma determinada estação pluviométrica, escolheremos Alagoinhas por ser minha terra de origem. E por que lá existe vampiros.
+
+``` {r echo = TRUE, message=FALSE, warning=FALSE}
+stations <- c("Alagoinhas")
+stations_rows <- pmatch(stations, bdmep_meta$name)  #busca a estação
+stns_codes <- bdmep_meta[stations_rows, "id"]       # retorna o id
+
+stns_codes
+```
+
+Faremos então o downloads dos dados: 
+
+``` {r echo = TRUE, eval = FALSE, message=FALSE, warning=FALSE}
+start_date <- "01/01/1961"
+end_date <- format(Sys.Date(), "%d/%m/%Y")
+data <- bdmep_import(id = stns_codes,
+                         sdate = start_date, 
+                         edate = end_date, 
+                         email = "your-email",
+                         passwd = "your-password",
+                         verbose = TRUE)
+
+```
+
+
+``` {r echo = FALSE, eval = TRUE, message=FALSE, warning=FALSE}
+start_date <- "01/01/1988"
+end_date <- format(Sys.Date(), "%d/%m/%Y")
+met_data <- bdmep_import(id = stns_codes,
+                         sdate = start_date, 
+                         edate = end_date, 
+                         email = "tarssio.disap@hotmail.com",
+                         passwd = "9mks3vfn",
+                         verbose = TRUE)
+
+head(met_data)
+
+```
+
+E usaremos as funções do Tidyverse para filtrar apenas os valores de chuva:
+
+``` {r echo = TRUE, message=FALSE, warning=FALSE}
+
+met_data <- met_data %>% 
+  select(date, prec) %>% 
+  na.omit()
+
+head(met_data)
+```
+
+### Primeira distribuição: Distribuição dos totais anuais
+
+Para isto vamos agrupar o banco de dados de forma anual e criar um novo onde as observações corresponderam a soma das chuvas observadas anualmente:
+
+``` {r echo = TRUE, message=FALSE, warning=FALSE}
+
+met_anual <- met_data %>%
+  mutate(year = year(date)) %>% 
+  group_by(year) %>%  
+  summarise(prec = sum(prec)) %>% 
+  glimpse()
+
+```
+
+``` {r echo = TRUE, message=FALSE, warning=FALSE}
+
+met_data %>%
+  mutate(year = year(date)) %>% 
+  group_by(year) %>%  
+  summarise(prec = sum(prec)) %>% 
+  ggplot(aes(x = prec, y = ..density..)) +
+  geom_histogram(binwidth = 100)
+
+```
