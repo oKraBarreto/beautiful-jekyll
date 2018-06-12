@@ -1,16 +1,15 @@
 ---
 layout: page
-title: About me
-subtitle: Why you'd want to go on a date with me
+title: Quem tu és?
+subtitle: Prazer, Tarssio!
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+Olá, meu nome é Tarssio. Sou estudante de doutorado do PEI - UFBA. Graduado em Engenharia Sanitária e Ambiental, pela mesma instituição, sou um entusiasta da ciência de dados e venho através deste blog apresentar alguma das minhas inquietações.
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+Por vezes, acabarei falando de arte, cinema, música ou apenas de R mesmo. Porém, o foco será as questões ambientais e espero que se divirtam!
 
-What else do you need?
+<center> "A arte não é so talento, mas sobretudo coragem" - Glauber Rocha </center>
 
-### my history
-
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](http://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+<p align="center">
+<img src="http://24.media.tumblr.com/2f1a97a2fec736d85a85e62caf5a8935/tumblr_mlbvg4YnNd1qcoz0to2_500.gif" width="700" height="450" />
+</p> 
