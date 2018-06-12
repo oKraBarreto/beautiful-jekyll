@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Quem tu és?
-subtitle: Prazer, Tarssio!
+title: Seja bem vindo
+subtitle: Prazer, sou Tarssio.
 ---
 
 Olá, meu nome é Tarssio. Sou estudante de doutorado do PEI - UFBA. Graduado em Engenharia Sanitária e Ambiental, pela mesma instituição, sou um entusiasta da ciência de dados e venho através deste blog apresentar alguma das minhas inquietações.
