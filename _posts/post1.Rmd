@@ -3,6 +3,15 @@ title: "Distribuições de Probabilidade e Hidrologia"
 output: html_document
 ---
 
+
+## Distribuições de probabilidade na Hidrologia
+
+Na hidrologia, os possiveis usos das distribuições de probabilidade são extensos. Alguns usos comuns são: estimar médias anuais de chuvas para determinados locais; estimar recorrências de grandes valores de chuvas e estimar vazões de referências.
+
+Nesta primeira postagem serão apresentadas algumas aplicações de distribuições de probabilidade para caracterizar valores esperados de chuva, a exemplo de valores médios e recorrências de grandes volumes precipitados.
+
+Nesta aventura teremos nosso grande amigo R!
+
 ## Um pouco sobre distribuições de probabilidade 
 
 A distribuição de probabilidade de uma dada variável aleátoria descreve como estas probabilidades são distribruidas ao longo dos valores desta variável. Neste caso, é preciso primariamente,  definir se tratamos de uma variável aleatória discreta ou contínua.
@@ -14,17 +23,10 @@ Por outro lado, ao se falar de uma variável aleatória contínua faz mais senti
 Para se aprofundar neste tema é indicado que se leia: "Applied Statistics
 and Probability for Engineers": Montgomery e Runger.
 
-## Distribuições de probabilidade na Hidrologia
-
-Na hidrologia, os possiveis usos das distribuições de probabilidade são extensos. Alguns usos comuns são: estimar médias anuais de chuvas para determinados locais; estimar recorrências de grandes valores de chuvas e estimar vazões de referências.
-
-Nesta primeira postagem serão apresentadas algumas aplicações de distribuições de probabilidade para caracterizar valores esperados de chuva, a exemplo de valores médios e recorrências de grandes volumes precipitados.
-
-Nesta aventura teremos nosso grande amigo R!
 
 ## Obtenção dos dados
 
-Para obter os dados usaremos o pacote inmetr (https://github.com/lhmet/inmetr) que funciona como um API para busca e download dos dados provenientes do Instituto Nacional de Metereologia. Também, incluiremos nosso fiel companheiro "Tidyverse".
+Para obter os dados usaremos o pacote [inmetr](https://github.com/lhmet/inmetr) que funciona como um API para busca e download dos dados provenientes do Instituto Nacional de Metereologia. Também, incluiremos nosso fiel companheiro "Tidyverse".
 
 ```{r echo = TRUE, message=FALSE, warning=FALSE}
 
@@ -33,6 +35,7 @@ install_github('lhmet/inmetr')
 library(inmetr)
 library(tidyverse)
 library(lubridate)
+library(broom)
 ```
 
 Para obter os dados devemos escolher uma determinada estação pluviométrica, escolheremos Alagoinhas por ser minha terra de origem. E por que lá existe vampiros.
@@ -106,6 +109,42 @@ met_data %>%
   group_by(year) %>%  
   summarise(prec = sum(prec)) %>% 
   ggplot(aes(x = prec, y = ..density..)) +
-  geom_histogram(binwidth = 100)
+  geom_histogram(binwidth = 100) + 
+  theme_bw() + 
+  labs(x = "Chuva (mm/ano)", y = "Probabilidade")
 
 ```
+
+# Modelando a distribuição de probabilidade 
+
+<p align="center">
+<img src="http://4.bp.blogspot.com/-P1-qJLpCtQw/VflzGZL1TcI/AAAAAAAALrU/ZcdvpE14svQ/s1600/cantando2.gif" width="500" height="300" />
+</p> 
+
+Chegamos enfim, a modelagem propriamente dita. Testaremos a princípio as distribuições: Normal, Gamma e Exponencial
+
+``` {r echo = TRUE, message=FALSE, warning=FALSE}
+
+MASS::fitdistr(met_anual$prec, "normal") %>% 
+  glance()
+
+MASS::fitdistr(met_anual$prec+0.01, "gamma") %>% 
+  glance()
+
+MASS::fitdistr(met_anual$prec+0.01, "exponential") %>% 
+  glance()
+
+```
+
+Testando se realmente temos uma distribuição normal pelo teste de Shapiro-Wilker:
+
+``` {r echo = TRUE, message=FALSE, warning=FALSE}
+
+shapiro.test(met_anual$prec)
+
+```
+
+Apesar de ser o modelo de distribuição de probabilidade que apresentou melhores resultados frente ao AIC, a hipótese de que a distribuição de probabilidade em questão se tratava de uma distribuição normal foi rejeitada pelo teste de Shapiro-Wilker.
+
+Visto isto, pode-se pensar em métodos, por exemplo, que encontrem [change-points](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5464762/) na série temporal em questão, agrupando-a de forma a obter distribuições de probabilidades homogêneas para determinados intervalos de tempo.
+
