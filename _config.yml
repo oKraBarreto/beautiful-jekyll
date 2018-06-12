@@ -10,6 +10,7 @@ baseurl: ""
 # If you are building a GitHub project page then use these settings:
 #url: "http://username.github.io/projectname"
 #baseurl: "/projectname"
+encoding: UTF-8
 
 # Of course don't forget to change the username and projectname to YOUR username and project
 
@@ -31,7 +32,7 @@ navbar-links:
 
 # If you want to have an image logo in the top-left corner instead of the title text,
 # then specify the following parameter
-# title-img: /path/to/image
+avatar: "/img/my.jpg"
 
 # --- Background colour/image options --- #
 
@@ -167,13 +168,11 @@ link-tags: true
 
 # Exclude these files from production site
 exclude:
-  - CHANGELOG.md
-  - CNAME
-  - Dockerfile
   - Gemfile
   - Gemfile.lock
   - LICENSE
   - README.md
+  - CNAME
   - Vagrantfile
 # prose.io config
 prose:
@@ -231,7 +230,6 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
 
-encoding: UTF-8
-  
+
 # Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189
