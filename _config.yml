@@ -93,7 +93,7 @@ share-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "barretokra.github.io" 
+url-pretty: "barretokra.github.io/" 
 
 # --- Web Statistics Section --- #
 
@@ -175,7 +175,6 @@ exclude:
   - LICENSE
   - README.md
   - Vagrantfile
-  - *.Rmd
 # prose.io config
 prose:
   rooturl: '_posts'
