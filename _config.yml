@@ -93,7 +93,7 @@ share-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "barretokra.github.io/"  # eg. "deanattali.com/beautiful-jekyll"
+url-pretty: "barretokra.github.io/" 
 
 # --- Web Statistics Section --- #
 
@@ -175,7 +175,7 @@ exclude:
   - LICENSE
   - README.md
   - Vagrantfile
-
+  - "*.Rmd"
 # prose.io config
 prose:
   rooturl: '_posts'
@@ -232,8 +232,7 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
 
-exclude:
-  - "*.Rmd"
+
   
 # Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189
