@@ -14,7 +14,7 @@ baseurl: ""
 # Of course don't forget to change the username and projectname to YOUR username and project
 
 # Name of website
-title: okRBarreto
+title: barretokra.github.io
 
 # Short description of your site
 description: Pequenas aventuras em Data Science e Meio Ambiente
@@ -68,7 +68,7 @@ author:
 social-network-links:
   rss: true
   email: "tarssioesa@gmail.com"
-  github: okRaBarreto
+  github: barretokra
   twitter: okRa_Barreto
 #  reddit: yourname
 #  google-plus: +DeanAttali
@@ -93,7 +93,7 @@ share-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "barretokra.github.io/" 
+url-pretty: "barretokra.github.io" 
 
 # --- Web Statistics Section --- #
 
